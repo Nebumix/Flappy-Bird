@@ -85,6 +85,8 @@ var score = 0;
 
 var alpha = 1.0;
 
+var wait = 0;
+
 var messageStart = new Image();
 messageStart.src = "images/message.png";
 
@@ -135,9 +137,10 @@ function moveUp(){
             //start game, if start = 1 start pipes
             if(start == 0) start = 1;
         }
-    }else{
+    }/* else{
+        if(wait > 80)
         restart();
-    }
+    } */
 }
 
 function mousemove(ev) {   
@@ -268,14 +271,13 @@ function draw(){
     //if(die_val == 0){
             
         drawBackground(die_val);
+        drawPipe(die_val);
+        drawBird(die_val);
+        drawPlatform(die_val);
 
         ctx.fillStyle = "#fff";
         ctx.font = "100px Arial Black";
         ctx.fillText(score, 100, 100);
-
-        drawPipe(die_val);
-        drawBird(die_val);
-        drawPlatform(die_val);
 
 
         if(alpha > 0){
@@ -287,6 +289,10 @@ function draw(){
 
         if(die_val == 1){
             ctx.drawImage(gameOver, 50, 200);
+            wait++;
+
+            if(wait > 80)
+            restart();    
         }
         
         //if bird collide platform (410 is +- y platform)
@@ -311,8 +317,6 @@ function die(){
         dieBird.play();
         stop_fly = true;
     }
-
-    //window.setInterval(restart, 5000);
 }
 
 function restart(){
@@ -356,6 +360,8 @@ function restart(){
     score = 0;
 
     alpha = 1.0;
+
+    wait = 0;
 }
 
 //localStorage.setItem("nome", "gigi");
